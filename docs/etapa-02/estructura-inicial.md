@@ -121,3 +121,5 @@
 - fecha\_operación  
 - id\_usuario (FK) ?  
   &nbsp;
+  &nbsp;
+  ![Diagrama Entidad-Relación Inicial](imagenes/der_primer_planteo.png)
