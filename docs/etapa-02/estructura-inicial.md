@@ -1,6 +1,7 @@
 # SISTEMA DE GESTIÓN DE VENTAS \- VINOTECA
 
-### Estructura&nbsp;
+### Estructura inicial
+Estructura preliminar del Diagrama Entidad-Relación; por lo tanto, lo que se expone a continuación es una primera aproximación sujeta a los cambios y evoluciones que surgieron en las siguientes etapas del proyecto.
 
 #### Tabla: `Usuario`
 
