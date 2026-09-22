@@ -112,4 +112,4 @@ El campo (subtotal) debe eliminarse de la tabla y calcularse mediante una consul
 °3FN: No cumple de forma estricta por falta de la clave foránea hacia bodega ya que aunque exista la tabla (bodega), la tabla (vinos) no almacena (id_bodega), impidiendo modelar la procedencia del producto. También porque se declara el campo id_categoria apuntando a categorías_producto, pero la tabla en el esquema se llama categoría.
 
 ## Solución: 
-corregir el nombre de la clave foránea apuntando a Categoría(id_categoria) y agregar el campo id_bodega (FK->Bodega) en la tabla vinos.po id_bodega en la tabla vinos.
+corregir el nombre de la clave foránea apuntando a Categoría(id_categoria) y agregar el campo id_bodega (FK->Bodega) en la tabla vinos.
