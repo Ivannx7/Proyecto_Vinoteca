@@ -17,11 +17,11 @@ CREATE TABLE categoria (
     CONSTRAINT pk_categoria PRIMARY KEY (id_categoria)
 );
 
--- PROVINCIA
-CREATE TABLE provincia (
-    id_provincia INT IDENTITY(1,1) NOT NULL,
+-- PAIS  [CORREGIDO: reemplaza a "provincia"]
+CREATE TABLE pais (
+    id_pais INT IDENTITY(1,1) NOT NULL,
     nombre VARCHAR(100) NOT NULL,
-    CONSTRAINT pk_provincia PRIMARY KEY (id_provincia)
+    CONSTRAINT pk_pais PRIMARY KEY (id_pais)
 );
 
 -- ROL
@@ -30,6 +30,7 @@ CREATE TABLE rol (
     nombre VARCHAR(50) NOT NULL,
     descripcion VARCHAR(255) NULL,
     fecha_creacion DATE NOT NULL,
+    estado BIT NOT NULL CONSTRAINT df_rol_estado DEFAULT 1, -- [CORREGIDO: agregado, unificado con script de catálogo]
     CONSTRAINT pk_rol PRIMARY KEY (id_rol)
 );
 
@@ -41,6 +42,7 @@ CREATE TABLE cliente (
     dni VARCHAR(20) NULL,
     telefono VARCHAR(30) NULL,
     correo_electronico VARCHAR(150) NULL,
+    fecha_nacimiento DATE NULL,
     es_consumidor_final BIT NOT NULL DEFAULT 1, -- BIT: 1 = TRUE, 0 = FALSE
     CONSTRAINT pk_cliente PRIMARY KEY (id_cliente)
 );
@@ -49,20 +51,20 @@ CREATE TABLE cliente (
 CREATE TABLE metodo_pago (
     id_metodo_pago INT IDENTITY(1,1) NOT NULL,
     nombre_metodo VARCHAR(50) NOT NULL,
-    estado VARCHAR(20) NOT NULL DEFAULT 'Activo',
+    estado BIT NOT NULL CONSTRAINT df_metodo_estado DEFAULT 1, -- [CORREGIDO: antes VARCHAR(20) DEFAULT 'Activo', unificado con script de catálogo]
     CONSTRAINT pk_metodo_pago PRIMARY KEY (id_metodo_pago)
 );
 
 -- 2. ENTIDADES CON DEPENDENCIAS DE PRIMER Y SEGUNDO NIVEL
 
--- REGION (Depende de PROVINCIA)
+-- REGION (Depende de PAIS)
 CREATE TABLE region (
     id_region INT IDENTITY(1,1) NOT NULL,
     nombre VARCHAR(100) NOT NULL,
-    id_provincia INT NOT NULL,
+    id_pais INT NOT NULL,
     CONSTRAINT pk_region PRIMARY KEY (id_region),
-    CONSTRAINT fk_region_provincia FOREIGN KEY (id_provincia) 
-        REFERENCES provincia(id_provincia)
+    CONSTRAINT fk_region_pais FOREIGN KEY (id_pais)
+        REFERENCES pais(id_pais)
 );
 
 -- BODEGA (Depende de REGION)
@@ -151,7 +153,6 @@ CREATE TABLE detalle_venta (
     cantidad INT NOT NULL,
     precio_unitario_historico DECIMAL(12,2) NOT NULL,
     porcentaje_descuento DECIMAL(5,2) NOT NULL DEFAULT 0.00,
-    subtotal DECIMAL(12,2) NOT NULL,
     id_vino INT NOT NULL,
     id_venta INT NOT NULL,
     CONSTRAINT pk_detalle_venta PRIMARY KEY (id_detalle_venta),
