@@ -1,4 +1,4 @@
-USE vinoteca
+USE vinoteca;
 
 -- Eliminar restricciones viejas
 ALTER TABLE vino_cepa DROP CONSTRAINT fk_vino_cepa_vino;
