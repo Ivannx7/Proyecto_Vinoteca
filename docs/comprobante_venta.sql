@@ -1,5 +1,5 @@
 -- 1. FACTURA / COMPROBANTE
-SELECT 
+SELECT
     v.id_venta,
     v.tipo_comprobante,
     v.fecha_hora,
