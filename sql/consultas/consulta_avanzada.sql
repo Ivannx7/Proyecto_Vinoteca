@@ -2,10 +2,19 @@
 SELECT 
     r.nombre AS region,
     b.nombre AS bodega,
-    COUNT(vi.id_vino) AS variedad_vinos_ofrecidos,
-    AVG(CAST(vi.precio_venta AS DECIMAL(10,2))) AS precio_promedio_vinos,
+    COUNT(DISTINCT vi.id_vino) AS variedad_vinos_ofrecidos,
+    CAST(
+    AVG(vi.precio_venta)
+    AS DECIMAL(12,2)
+) AS precio_promedio_vinos,
     SUM(dv.cantidad) AS cantidad_vinos_vendidos,
-    SUM(dv.cantidad * dv.precio_unitario_historico) AS ingresos_totales_bodega
+   CAST(
+    SUM(
+        dv.cantidad * dv.precio_unitario_historico
+        * (1 - dv.porcentaje_descuento / 100.0)
+    )
+    AS DECIMAL(14,2)
+) AS ingresos_totales_bodega
 FROM bodega b
 JOIN region r ON b.id_region = r.id_region
 JOIN vino vi ON b.id_bodega = vi.id_bodega
@@ -16,5 +25,8 @@ WHERE b.id_region IN (
     WHERE nombre IN ('Valle del Maipo', 'Canelones', 'Toscana', 'Valle de Uco')
 )
 GROUP BY r.id_region, r.nombre, b.id_bodega, b.nombre
-HAVING SUM(dv.cantidad * dv.precio_unitario_historico) > 50000.00
+HAVING SUM(
+    dv.cantidad * dv.precio_unitario_historico
+    * (1 - dv.porcentaje_descuento / 100.0)) > 50000.00
 ORDER BY ingresos_totales_bodega DESC;
+
