@@ -65,3 +65,40 @@ END;
 ```
 
 Esta arquitectura de código asegura que la base de datos de la vinoteca nunca quede en un estado inconsistente, cumpliendo a la perfección con las propiedades ACID requeridas para un sistema comercial robusto.
+
+# 5. Script de Demostración y Resultados Obtenidos
+
+> **Nota:** Aunque la estructura con `TRY...CATCH` es la mejor práctica profesional (como se detalla en la Fase 3), para la demostración de la presente Fase se optó por implementar el flujo conceptual solicitado en la guía del proyecto. Esto permite visualizar de manera más didáctica y paso a paso la propiedad de atomicidad mediante el uso de condicionales (`IF`) antes de ejecutar las modificaciones definitivas en la base de datos.
+
+El Procedimiento Almacenado principal que contiene esta lógica transaccional (`sp_RegistrarVenta`) fue implementado y cargado en el motor SQL Server. A continuación, se detallan los escenarios de validación ejecutados:
+
+---
+
+## Prueba 1: Venta Correcta (Producto con stock suficiente)
+
+**Descripción del escenario:** 
+En esta prueba, se simula a un cliente adquiriendo **5 unidades** del producto con ID 1 (cuyo stock inicial verificado es de 45 unidades). El objetivo es demostrar el escenario ideal donde se cumplen las reglas de negocio. El motor debe procesar la Unidad Lógica de Trabajo, ejecutar el `COMMIT` y retornar un mensaje de éxito. 
+Como resultado esperado, se debe generar la cabecera de la venta, el registro en el detalle, y el catálogo de vinos debe actualizar su stock restando las 5 unidades.
+
+**Ubicación del script de prueba:**  
+`etapa-05/sql/prueba_venta_correcta.sql`
+
+**Resultados obtenidos (Captura de pantalla):**
+![alt text](venta_correcta.png)
+![Evidencia Venta Correcta]()
+
+---
+
+## Prueba 2: Venta Incorrecta (Producto con stock insuficiente)
+
+**Descripción del escenario:** 
+Este escenario es crítico para comprobar la propiedad de **Atomicidad** ("todo o nada"). Partiendo del stock restante (40 unidades tras la prueba anterior), se intenta procesar una nueva venta por **100 unidades** del mismo producto. 
+El objetivo es demostrar que el sistema detecta la falta de disponibilidad y ejecuta un `ROLLBACK`. Lo que queremos validar es que el motor aborte la operación completa, emita un mensaje de error y, fundamentalmente, **no deje registros huérfanos** (es decir, no debe existir una cabecera de venta sin detalle, ni viceversa) manteniendo el stock completamente intacto en 40 unidades.
+
+**Ubicación del script de prueba:**  
+`etapa-05/sql/prueba_venta_incorrecta.sql`
+
+**Resultados obtenidos (Captura de pantalla):**
+![alt text](venta_incorrecta.png)
+
+![Evidencia Venta Incorrecta]()
