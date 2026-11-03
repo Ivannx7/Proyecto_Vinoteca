@@ -30,7 +30,8 @@ AFTER UPDATE
 AS
 BEGIN
     SET NOCOUNT ON;
-  -- Solo inserta auditoría si hubo cambios en precio o stock
+
+    -- Solo audita si el UPDATE tocó precio o stock
     IF UPDATE(precio_venta) OR UPDATE(stock_actual)
     BEGIN
         INSERT INTO Auditoria_Vino (
@@ -53,7 +54,10 @@ BEGIN
             GETDATE(),
             'UPDATE'
         FROM inserted i
-        INNER JOIN deleted d ON i.id_vino = d.id_vino;
+        INNER JOIN deleted d ON i.id_vino = d.id_vino
+        -- Solo registra si el valor realmente cambió
+        WHERE i.precio_venta <> d.precio_venta
+           OR i.stock_actual <> d.stock_actual;
     END
 END;
 GO
