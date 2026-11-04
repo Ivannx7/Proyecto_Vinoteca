@@ -1,7 +1,7 @@
-## 1. Procedimientos Almacenados
+## Procedimientos Almacenados
 
 # Definición y objetivo
-*  Definición: un Procedimiento Almacenado es un conjunto de sentencias Transact-SQL (T-SQL) compiladas y guardadas en el servidor de base de datos como un objeto reutilizable.
+*  Definición: un Procedimiento Almacenado es un conjunto de sentencias compiladas y guardadas en el servidor de base de datos como un objeto reutilizable.
 * Objetivo: Ejecutar operaciones complejas que involucran inserciones, actualizaciones, eliminaciones y lógica de negocio (como validaciones y control de errores) de manera centralizada y eficiente, evitando el envío de múltiples consultas desde la aplicación cliente.
 
 # Ventajas y Aplicaciones
@@ -51,7 +51,7 @@ En el sistema de la vinoteca, los procedimientos encapsulan las siguientes regla
 * fn_calcular_subtotal: Multiplica la cantidad de unidades por el precio unitario del vino.
 * fn_calcular_precio_con_descuento: Toma el precio original y descuenta el porcentaje indicado para retornar el nuevo precio de venta.
 * 
-5. Resultados Obtenidos
+##  Resultados Obtenidos
 
 Al ejecutar el script de demostración en SQL Server Management Studio (SSMS), se validan satisfactoriamente los siguientes puntos:
 
