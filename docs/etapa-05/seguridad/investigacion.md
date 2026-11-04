@@ -1,7 +1,7 @@
 # Seguridad: manejo de permisos a nivel de usuarios y roles en SQL Server
 
 **Base de datos:** `VINOTECA`  
-**Script asociado:** `seguridad.sql`
+**Script asociado:** seguridad/`scripts.sql`
 
 
 ## 1. Introducción
