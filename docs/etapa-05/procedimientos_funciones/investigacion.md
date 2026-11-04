@@ -27,30 +27,6 @@ En el sistema de la vinoteca, los procedimientos encapsulan las siguientes regla
 * sp_actualizar_precio_vino: Modifica el precio unitario guardando la trazabilidad en la tabla historial_precio.
 * sp_eliminar_registro: Elimina registros en tablas maestras validando restricciones de integridad referencial.
 
-# Funciones Almacenadas
-
-## 1. Definición y Objetivo
-
-* Definición: una Función Almacenada Escalar es una rutina reutilizable que recibe parámetros de entrada, ejecuta un cálculo determinista y devuelve un único valor escalar (por ejemplo, DECIMAL, INT).
-* Objetivo: Encapsular fórmulas matemáticas, transformaciones de datos o reglas de cálculo repetitivas dentro del motor de base de datos para consumirlas dentro de consultas SELECT, cláusulas WHERE o procedimientos.
-
-## 2. Ventajas y Aplicaciones
-
-* Evita duplicar código de fórmulas en distintas consultas del sistema.
-* Se integran de forma transparente dentro de sentencias SELECT, UPDATE o dentro de procedimientos almacenados.
-* Cálculo de subtotales, precios finales con descuento, cálculo de impuestos (IVA), o conversión de divisas.
-
-## 3. Implementación en SQL Server Express
-
-* Se crean con CREATE FUNCTION ... RETURNS <tipo_dato>.
-* Es obligatorio que contengan la cláusula RETURNS y un bloque BEGIN ... END que finalice con RETURN <valor>.
-* Regla crítica en SQL Server: Para invocarlas en cualquier consulta es obligatorio anteponer el esquema del objeto (ejemplo: dbo.fn_calcular_subtotal(...)).
-
-## 4. Caso Concreto Aplicado al Sistema de Ventas
-
-* fn_calcular_subtotal: Multiplica la cantidad de unidades por el precio unitario del vino.
-* fn_calcular_precio_con_descuento: Toma el precio original y descuenta el porcentaje indicado para retornar el nuevo precio de venta.
-* 
 ##  5. Resultados Obtenidos
 
 Al ejecutar el script de demostración en SQL Server Management Studio (SSMS), se validan satisfactoriamente los siguientes puntos:
@@ -63,6 +39,3 @@ sp_actualizar_precio_vino registra el precio anterior en historial_precio con la
 
 * Control de Seguridad e Integridad:
 La llamada EXEC sp_eliminar_registro @p_tabla = 'categoria', @p_id = 5; efectúa el borrado únicamente tras validar que la tabla no sea de tipo transaccional/histórico y que el registro exista.
-Cálculos Escalares Exactos:
-Las consultas SELECT dbo.fn_calcular_subtotal(...) retornan valores precisos redondeados a dos decimales (90000.00, 12005.00, 111004.50).
-Las consultas SELECT dbo.fn_calcular_precio_con_descuento(...) calculan correctamente los valores con descuento (18000.00, 37500.00, 60000.00).
