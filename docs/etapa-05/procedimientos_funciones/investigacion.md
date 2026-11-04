@@ -1,16 +1,16 @@
-## Procedimientos Almacenados
+# Procedimientos Almacenados
 
-# Definición y objetivo
+## 1. Definición y objetivo
 *  Definición: un Procedimiento Almacenado es un conjunto de sentencias compiladas y guardadas en el servidor de base de datos como un objeto reutilizable.
 * Objetivo: Ejecutar operaciones complejas que involucran inserciones, actualizaciones, eliminaciones y lógica de negocio (como validaciones y control de errores) de manera centralizada y eficiente, evitando el envío de múltiples consultas desde la aplicación cliente.
 
-# Ventajas y Aplicaciones
+## 2. Ventajas y Aplicaciones
 * El servidor compila y optimiza el plan de ejecución la primera vez que se ejecuta.
 * Permite conceder permisos de ejecución sobre el procedimiento a un usuario sin darle acceso directo a las tablas subyacentes. Previenen ataques de Inyección SQL.
 * La lógica del sistema se modifica en un solo punto en la base de datos sin necesidad de redesplegar el software cliente.
 * Registro de transacciones complejas (ventas, facturación), control de inventario y tareas administrativas estructuradas.
 
-# Implementación en SQL Server Express
+## 3. Implementación en SQL Server Express
 
 En SQL Server Express, se implementan mediante el comando CREATE PROCEDURE. A diferencia de otros motores SQL:
 * Las variables y parámetros inician con el símbolo @.
@@ -18,7 +18,7 @@ En SQL Server Express, se implementan mediante el comando CREATE PROCEDURE. A di
 * El manejo de errores se gestiona con THROW o bloques BEGIN TRY ... BEGIN CATCH.
 * No se utiliza la palabra reservada CALL, sino EXEC o EXECUTE.
 
-# Caso Concreto Aplicado al Sistema de Ventas
+## 4. Caso Concreto Aplicado al Sistema de Ventas
 
 En el sistema de la vinoteca, los procedimientos encapsulan las siguientes reglas de negocio:
 * sp_registrar_venta: Registra la cabecera e inserta la línea de detalle de la compra.
@@ -27,31 +27,31 @@ En el sistema de la vinoteca, los procedimientos encapsulan las siguientes regla
 * sp_actualizar_precio_vino: Modifica el precio unitario guardando la trazabilidad en la tabla historial_precio.
 * sp_eliminar_registro: Elimina registros en tablas maestras validando restricciones de integridad referencial.
 
-## Funciones Almacenadas
+# Funciones Almacenadas
 
-# Definición y Objetivo
+## 1. Definición y Objetivo
 
 * Definición: una Función Almacenada Escalar es una rutina reutilizable que recibe parámetros de entrada, ejecuta un cálculo determinista y devuelve un único valor escalar (por ejemplo, DECIMAL, INT).
 * Objetivo: Encapsular fórmulas matemáticas, transformaciones de datos o reglas de cálculo repetitivas dentro del motor de base de datos para consumirlas dentro de consultas SELECT, cláusulas WHERE o procedimientos.
 
-## Ventajas y Aplicaciones
+## 2. Ventajas y Aplicaciones
 
 * Evita duplicar código de fórmulas en distintas consultas del sistema.
 * Se integran de forma transparente dentro de sentencias SELECT, UPDATE o dentro de procedimientos almacenados.
 * Cálculo de subtotales, precios finales con descuento, cálculo de impuestos (IVA), o conversión de divisas.
 
-## Implementación en SQL Server Express
+## 3. Implementación en SQL Server Express
 
 * Se crean con CREATE FUNCTION ... RETURNS <tipo_dato>.
 * Es obligatorio que contengan la cláusula RETURNS y un bloque BEGIN ... END que finalice con RETURN <valor>.
 * Regla crítica en SQL Server: Para invocarlas en cualquier consulta es obligatorio anteponer el esquema del objeto (ejemplo: dbo.fn_calcular_subtotal(...)).
 
-## Caso Concreto Aplicado al Sistema de Ventas
+## 4. Caso Concreto Aplicado al Sistema de Ventas
 
 * fn_calcular_subtotal: Multiplica la cantidad de unidades por el precio unitario del vino.
 * fn_calcular_precio_con_descuento: Toma el precio original y descuenta el porcentaje indicado para retornar el nuevo precio de venta.
 * 
-##  Resultados Obtenidos
+##  5. Resultados Obtenidos
 
 Al ejecutar el script de demostración en SQL Server Management Studio (SSMS), se validan satisfactoriamente los siguientes puntos:
 
