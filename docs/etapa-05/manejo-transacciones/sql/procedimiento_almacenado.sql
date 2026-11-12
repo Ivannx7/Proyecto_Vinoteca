@@ -22,7 +22,7 @@ BEGIN
     -- Consultar el stock actual ANTES de iniciar la operación
     SELECT @v_stock_actual = stock_actual 
     FROM vino 
-    WHERE vino_id = @p_id_vino;
+    WHERE id_vino = @p_id_vino;
 
     -- ==========================================
     -- INICIO DE LA TRANSACCIÓN (Atomicidad)
@@ -30,20 +30,20 @@ BEGIN
     BEGIN TRANSACTION;
 
     -- 1. Registrar venta
-    INSERT INTO venta (fecha_hora, monto_total, tipo_comprobante, cliente_id, usuario_id)
+    INSERT INTO venta (fecha_hora, monto_total, tipo_comprobante, id_cliente, id_usuario)
     VALUES (GETDATE(), @v_subtotal, 'Factura', @p_id_cliente, @p_id_usuario);
 
     -- Capturar el ID generado
     SET @v_id_venta = SCOPE_IDENTITY();
 
     -- 2. Registrar detalle
-    INSERT INTO detalle_venta (cantidad, precio_unitario_historico, porcentaje_descuento, vino_id, venta_id)
+    INSERT INTO detalle_venta (cantidad, precio_unitario_historico, porcentaje_descuento, id_vino, id_venta)
     VALUES (@p_cantidad, @p_precio_unitario_historico, 0, @p_id_vino, @v_id_venta);
 
     -- 3. Descontar stock
     UPDATE vino
     SET stock_actual = stock_actual - @p_cantidad
-    WHERE vino_id = @p_id_vino;
+    WHERE id_vino = @p_id_vino;
 
     -- 4. Validación conceptual de stock
     IF @v_stock_actual < @p_cantidad

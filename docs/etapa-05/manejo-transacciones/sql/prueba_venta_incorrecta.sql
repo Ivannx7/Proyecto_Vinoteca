@@ -7,8 +7,8 @@ EXEC sp_RegistrarVenta
     @p_precio_unitario_historico = 45000.00;
 
 -- VERIFICACIÓN DE RESULTADOS:
-SELECT TOP 1 * FROM venta ORDER BY venta_id DESC;
-SELECT TOP 1 * FROM detalle_venta ORDER BY detalle_venta_id DESC;
+SELECT TOP 1 * FROM venta ORDER BY id_venta DESC;
+SELECT TOP 1 * FROM detalle_venta ORDER BY id_detalle_venta DESC;
 
 -- Debe retornar 40 (Demostrando que el Rollback deshizo los inserts y protegio el stock)
-SELECT vino_id, nombre_vino, stock_actual FROM vino WHERE vino_id = 1;
+SELECT id_vino, nombre, stock_actual FROM vino WHERE id_vino = 1;
