@@ -26,6 +26,3 @@ En un entorno comercial como una vinoteca, la información está altamente norma
 *   **Proveer un entorno seguro para la escalabilidad:** Asegurando que el sistema sea robusto incluso cuando múltiples usuarios (vendedores, administradores, depósitos) operen sobre el catálogo de vinos y las ventas al mismo tiempo.
 ```eof
 
-Ahí tenés el archivo listo para usar en tu informe o documentación. Esta redacción demuestra que no solo entienden la teoría de SQL Server, sino que saben exactamente por qué es crucial para el negocio de la vinoteca. 
-
-¿Te gustaría que avancemos ahora con la sección "2. Ventajas y aplicaciones" también en formato Markdown, detallando casos específicos como la venta de combos o la anulación de tickets?
